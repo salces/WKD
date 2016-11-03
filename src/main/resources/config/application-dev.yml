@@ -25,7 +25,7 @@ spring:
     data:
         mongodb:
             uri: mongodb://localhost:27017
-            database: WKDProject
+            database: WKD_DB
     mail:
         host: localhost
         port: 25
