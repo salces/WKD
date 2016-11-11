@@ -1,11 +1,16 @@
 package pl.edu.wat.config.dbmigrations;
 
+import au.com.bytecode.opencsv.CSVReader;
 import com.github.mongobee.changeset.ChangeLog;
 import com.github.mongobee.changeset.ChangeSet;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import pl.edu.wat.bookstore.book.domain.Book;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -98,5 +103,53 @@ public class InitialSetupMigration {
             .add("authorities", authoritiesUser)
             .get()
         );
+    }
+
+    @ChangeSet(order = "03",author = "initiator", id="03-addBooks")
+    public void addBooks(DB db) throws IOException {
+        DBCollection booksCollection = db.getCollection("books");
+        CSVReader reader = new CSVReader(new FileReader("src/main/resources/dataSource/books.csv"),';','"',1);
+        List<Book> books = getBooks(reader);
+        books.forEach(b ->
+            booksCollection.insert(toDocument(b))
+        );
+        reader.close();
+    }
+
+    private List<Book> getBooks(CSVReader reader) throws IOException {
+        List<Book> books = new ArrayList<>();
+        String[] values;
+        while ((values = reader.readNext()) != null) {
+            Book book = toBook(values);
+            books.add(book);
+        }
+        return books;
+    }
+
+    private Book toBook(String[] values) {
+        return Book
+            .builder()
+            .ISBN(values[0])
+            .tittle(values[1])
+            .author(values[2])
+            .publicationYear(Integer.parseInt(values[3]))
+            .publisher(values[4])
+            .smallImageUrl(values[5])
+            .mediumImageUrl(values[6])
+            .largeImageUrl(values[7])
+            .build();
+    }
+
+    private DBObject toDocument(Book book){
+       return BasicDBObjectBuilder.start()
+            .add("ISBN",book.getISBN())
+            .add("tittle",book.getTittle())
+            .add("author",book.getAuthor())
+            .add("publicationYear",book.getPublicationYear())
+            .add("publisher",book.getPublisher())
+            .add("smallImageUrl",book.getSmallImageUrl())
+            .add("mediumImageUrl",book.getMediumImageUrl())
+            .add("largeImageUrl",book.getLargeImageUrl())
+            .get();
     }
 }

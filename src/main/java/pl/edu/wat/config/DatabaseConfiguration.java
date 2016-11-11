@@ -26,7 +26,7 @@ import java.util.List;
 
 @Configuration
 @Profile("!" + Constants.SPRING_PROFILE_CLOUD)
-@EnableMongoRepositories("pl.edu.wat.repository")
+@EnableMongoRepositories({"pl.edu.wat.repository","pl.edu.wat.bookstore"})
 @Import(value = MongoAutoConfiguration.class)
 @EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
 public class DatabaseConfiguration extends AbstractMongoConfiguration {
