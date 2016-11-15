@@ -25,4 +25,9 @@ public class BookResource {
     public Page<Book> GetAllBooks(Pageable pageable){
         return bookRepository.findAll(pageable);
     }
+
+    @RequestMapping(value = "/count", method = GET)
+    public long Count(){
+        return bookRepository.count();
+    }
 }

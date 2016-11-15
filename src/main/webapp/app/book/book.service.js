@@ -8,9 +8,10 @@
     Book.$inject = ['$resource'];
 
     function Book ($resource) {
-        var service = $resource('api/book', {}, {
+        var service = $resource('api/book/:action', {}, {
             'get': { method: 'GET', params: {}, isArray: false},
-            'query': {method: 'GET', params: {}, isArray: false}
+            'query': {method: 'GET', params: {}, isArray: false},
+            'count': {method: 'GET', params: {action: 'count'}, isArray: false}
         });
 
         return service;

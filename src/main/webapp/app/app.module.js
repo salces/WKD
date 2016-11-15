@@ -7,12 +7,14 @@
             'ngResource',
             'ngCookies',
             'ngAria',
+            // 'ngTable',
             'ngCacheBuster',
             'ngFileUpload',
+            'ui.grid',
+            'ui.grid.pagination',
             'ui.bootstrap',
             'ui.bootstrap.datetimepicker',
             'ui.router',
-            'ui.grid',
             'infinite-scroll',
             // jhipster-needle-angularjs-add-module JHipster will add new module here
             'angular-loading-bar'
