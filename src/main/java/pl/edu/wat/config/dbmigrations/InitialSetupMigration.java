@@ -11,6 +11,7 @@ import pl.edu.wat.bookstore.book.domain.Book;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -114,6 +115,20 @@ public class InitialSetupMigration {
             booksCollection.insert(toDocument(b))
         );
         reader.close();
+    }
+
+    @ChangeSet(order = "04", author = "initiator", id="04-addDummyBookLoans")
+    public void addDummyBookLoans(DB db){
+        DBCollection bookLoansCollection = db.getCollection("bookLoans");
+        bookLoansCollection.insert(BasicDBObjectBuilder.start()
+            .add("ISBN","some isbn")
+            .add("days",30)
+            .add("startDate", new Date())
+            .add("endDate", new Date())
+            .add("isActive", true)
+            .add("owner","pawel")
+            .get());
+
     }
 
     private List<Book> getBooks(CSVReader reader) throws IOException {

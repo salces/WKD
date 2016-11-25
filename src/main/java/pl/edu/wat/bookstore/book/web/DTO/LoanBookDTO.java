@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoanBookDTO {
-    String ISBN;
-    String userID;
+    String isbn;
     int days;
 }

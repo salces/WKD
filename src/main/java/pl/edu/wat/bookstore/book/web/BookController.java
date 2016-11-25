@@ -7,15 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.bookstore.book.domain.Book;
 import pl.edu.wat.bookstore.book.repository.BookRepository;
 import pl.edu.wat.bookstore.book.service.LoanBookService;
 import pl.edu.wat.bookstore.book.service.exceptions.NoSuchBookException;
 import pl.edu.wat.bookstore.book.web.DTO.LoanBookDTO;
+import pl.edu.wat.security.SecurityUtils;
 
 import java.util.List;
 
@@ -44,9 +42,9 @@ public class BookController {
         return bookRepository.count();
     }
 
-    @RequestMapping(value = "/loan", method = POST)
+    @RequestMapping(value = "/loan", method = POST,consumes = "application/json")
     @ResponseStatus(code = OK)
-    public void LoanBook(LoanBookDTO loanBookDTO) throws NoSuchBookException {
+    public void LoanBook(@RequestBody LoanBookDTO loanBookDTO) {
         loanBookService.loan(loanBookDTO);
     }
 }

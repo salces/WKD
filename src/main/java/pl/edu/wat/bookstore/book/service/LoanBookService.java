@@ -12,8 +12,10 @@ import pl.edu.wat.bookstore.book.service.exceptions.NoSuchBookException;
 import pl.edu.wat.bookstore.book.web.DTO.LoanBookDTO;
 import pl.edu.wat.domain.User;
 import pl.edu.wat.repository.UserRepository;
+import pl.edu.wat.security.SecurityUtils;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,34 +31,33 @@ public class LoanBookService {
     BookLoanRepository bookLoanRepository;
 
     public void loan(LoanBookDTO loanBookDTO) {
-        Book bookToLoan = bookRepository.findOne(loanBookDTO.getISBN());
+        Book bookToLoan = bookRepository.findOne(loanBookDTO.getIsbn());
 
         if(bookToLoan == null){
-            throw new NoSuchBookException(loanBookDTO.getISBN());
+            throw new NoSuchBookException(loanBookDTO.getIsbn());
         }
 
-        User owner = userRepository.findOne(loanBookDTO.getUserID());
-
+        User owner = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
         if(owner == null){
-            throw new UsernameNotFoundException("No such user with login " + loanBookDTO.getUserID());
+            throw new UsernameNotFoundException("No such user with login " + owner);
         }
 
         boolean isAlreadyLoaned = !owner
                                     .getBookLoans()
                                     .stream()
                                     .filter(b -> b.isActive())
-                                    .filter(b -> b.getISBN().equals(loanBookDTO.getISBN()))
+                                    .filter(b -> b.getISBN().equals(loanBookDTO.getIsbn()))
                                     .collect(Collectors.toList())
                                     .isEmpty();
         if(isAlreadyLoaned){
-            throw new BookAlreadyLoanedException(loanBookDTO);
+            throw new BookAlreadyLoanedException(loanBookDTO.getIsbn(),owner.getLogin());
         }
 
         BookLoan bookLoan = BookLoan.builder()
-                                .ISBN(loanBookDTO.getISBN())
+                                .ISBN(loanBookDTO.getIsbn())
                                 .days(loanBookDTO.getDays())
-                                .startDate(LocalDate.now())
-                                .endDate(LocalDate.now().plusDays(loanBookDTO.getDays()))
+                                .startDate(new Date())
+                                .endDate(new Date())
                                 .isActive(true)
                                 .owner(owner)
                                 .build();

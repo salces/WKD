@@ -1,12 +1,14 @@
 package pl.edu.wat.bookstore.book.domain;
 
 import lombok.*;
-import org.jongo.marshall.jackson.oid.Id;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import pl.edu.wat.domain.User;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Document(collection = "bookLoans")
 @Setter
@@ -14,16 +16,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BookLoan {
+public class BookLoan implements Serializable{
 
     @Id
-    @Generated
-    Long ID;
+    private String ID;
 
     private String ISBN;
     private int days;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Date startDate;
+    private Date endDate;
     private boolean isActive;
 
     @DBRef
