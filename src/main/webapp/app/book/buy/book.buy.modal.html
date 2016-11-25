@@ -1,18 +1,31 @@
 <div class="modal-header">
-    <img src="{{ vm.book.largeImageUrl }}"/>
-    <table class="table table-striped table-bordered">
-        <tr>
-            <td>Author</td>
-            <td>{{ vm.book.author}}</td>
-        </tr>
-        <tr>
-            <td>Tittle</td>
-            <td>{{ vm.book.tittle}}</td>
-        </tr>
-        <tr>
-            <td>Publisher</td>
-            <td>{{ vm.book.publisher}}</td>
-        </tr>
-    </table>
-
+    <div class="modal-header">
+        Buy book
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{{ vm.book.largeImageUrl }}" style="width: 100%; height: 100%"/>
+                </div>
+                <div>
+                    <div class="col-md-6">
+                        <table class="table table-striped table-bordered">
+                            <tr>
+                                <td>Author</td>
+                                <td>{{ vm.book.author}}</td>
+                            </tr>
+                            <tr>
+                                <td>Tittle</td>
+                                <td>{{ vm.book.tittle}}</td>
+                            </tr>
+                        </table>
+                        <span>Days for loan</span>
+                        <input type="number" min="1" max="30" step="1">
+                        <input type="button" ng-click="vm.loan()" value="Buy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

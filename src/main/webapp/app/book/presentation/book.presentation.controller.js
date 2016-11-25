@@ -5,7 +5,7 @@
         .module('wkdProjectApp')
         .controller('BookPresentationController', BookPresentationController);
 
-    BookPresentationController.$inject = ['Book', '$scope', '$uibModal'];
+    BookPresentationController.$inject = ['Book', '$scope', '$uibModal',];
 
     function BookPresentationController(Book, $scope, $uibModal) {
         var vm = this;
@@ -43,7 +43,7 @@
                 templateUrl: '/app/book/buy/book.buy.modal.html',
                 controller: 'BuyBookController',
                 controllerAs: 'vm',
-                resolve : {
+                resolve: {
                     book: function getBook() {
                         return book;
                     }
@@ -63,8 +63,8 @@
                 return data.content;
             });
         };
+
         getPage(0, 25);
     }
-
 
 })();
