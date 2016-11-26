@@ -9,12 +9,14 @@ import pl.edu.wat.bookstore.book.repository.BookLoanRepository;
 import pl.edu.wat.bookstore.book.repository.BookRepository;
 import pl.edu.wat.bookstore.book.service.exceptions.BookAlreadyLoanedException;
 import pl.edu.wat.bookstore.book.service.exceptions.NoSuchBookException;
+import pl.edu.wat.bookstore.book.service.exceptions.NoSuchLoanedBookException;
 import pl.edu.wat.bookstore.book.web.DTO.LoanBookDTO;
 import pl.edu.wat.domain.User;
 import pl.edu.wat.repository.UserRepository;
 import pl.edu.wat.security.SecurityUtils;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -66,5 +68,33 @@ public class LoanBookService {
         owner.addBookLoan(bookLoan);
         bookLoanRepository.insert(bookLoan);
         userRepository.save(owner);
+    }
+
+    public void makePayment(String bookLoanID){
+        BookLoan loanedBook = bookLoanRepository.findOne(bookLoanID);
+
+        if(loanedBook == null){
+            throw new NoSuchLoanedBookException();
+        }
+
+        loanedBook.setPaid(true);
+        activateLoanBook(loanedBook);
+        bookLoanRepository.save(loanedBook);
+    }
+
+    private void activateLoanBook(BookLoan bookLoan){
+        bookLoan.setActive(true);
+        bookLoan.setStartDate(getToday());
+        bookLoan.setEndDate(getDateAfterNDays(bookLoan.getDays()));
+    }
+
+    private Date getDateAfterNDays(int days) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,days);
+        return calendar.getTime();
+    }
+
+    private Date getToday(){
+        return new Date();
     }
 }

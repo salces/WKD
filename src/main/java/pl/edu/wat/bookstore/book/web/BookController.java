@@ -34,18 +34,25 @@ public class BookController {
 
     @RequestMapping(method = GET)
     @ResponseStatus(code = OK)
-    public Page<Book> GetAllBooks(Pageable pageable){
+    public Page<Book> getAllBooks(Pageable pageable){
         return bookRepository.findAll(pageable);
     }
 
     @RequestMapping(value = "/count", method = GET)
-    public long Count(){
+    public long count(){
         return bookRepository.count();
     }
 
     @RequestMapping(value = "/loan", method = POST,consumes = "application/json")
     @ResponseStatus(code = OK)
-    public void LoanBook(@RequestBody LoanBookDTO loanBookDTO) {
+    public void loanBook(@RequestBody LoanBookDTO loanBookDTO) {
         loanBookService.loan(loanBookDTO);
     }
+
+    @RequestMapping(value = "/loan/payment", method = POST, consumes = "application/json")
+    @ResponseStatus(code = OK)
+    public void makePayment(@RequestBody String loanBookID){
+        loanBookService.makePayment(loanBookID);
+    }
+
 }
