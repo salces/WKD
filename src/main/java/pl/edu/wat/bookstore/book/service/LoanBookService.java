@@ -58,7 +58,8 @@ public class LoanBookService {
                                 .days(loanBookDTO.getDays())
                                 .startDate(new Date())
                                 .endDate(new Date())
-                                .isActive(true)
+                                .isActive(false)
+                                .isPaid(false)
                                 .owner(owner)
                                 .build();
 

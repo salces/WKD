@@ -5,35 +5,38 @@
         .module('wkdProjectApp')
         .controller('BuyBookController', BuyBookController);
 
-    BuyBookController.$inject = ['Book', 'book', '$log'];
+    BuyBookController.$inject = ['Book', 'book', 'Notification', '$log'];
 
-    function BuyBookController(Book, book, $log) {
+    function BuyBookController(Book, book, Notification, $log) {
         var vm = this;
         vm.book = book;
+        vm.daysForLoan = 1;
 
         vm.loan = function () {
             var loanBookDTO = {
                 isbn: vm.book.isbn,
-                days: 30
+                days: vm.daysForLoan
             };
+
             Book.loan(loanBookDTO, function success(response) {
-                $log.log('success');
-                $log.log(response);
+                Notification.success('You successfully loaned book ' + vm.book.tittle
+                    + '. Go to section My books to make payment.');
             }, function failure(response) {
-                $log.log('failure');
-                $log.log(response);
+                switch (response.status){
+                    case 409:
+                        Notification.warning('You already have this book');
+                        break;
+                    case 404:
+                        Notification.error('No such book found');
+                        break;
+                    case 500:
+                        Notification.error('Server error. Probably user not found. Contact admin');
+                        break;
+
+                }
+
             });
         }
-
-        //     $http
-        //         .post('http://localhost:8080/api/book/loan', loanBookDTO)
-        //         .then(function success(response) {
-        //             $log.log(response)
-        //         }, function failure(response) {
-        //             $log.log(response)
-        //         });
-        //     $log.log("sie dzieje");
-        // }
     }
 
 

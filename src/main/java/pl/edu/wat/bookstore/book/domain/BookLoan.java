@@ -26,6 +26,7 @@ public class BookLoan implements Serializable{
     private Date startDate;
     private Date endDate;
     private boolean isActive;
+    private boolean isPaid;
 
     @DBRef
     private User owner;
