@@ -55,4 +55,9 @@ public class BookController {
         loanBookService.makePayment(loanBookID);
     }
 
+    @RequestMapping(method = POST)
+    @ResponseStatus(code = OK)
+    public void add(@RequestBody Book book){
+        bookRepository.save(book);
+    }
 }

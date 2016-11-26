@@ -13,7 +13,8 @@
             'get': { method: 'GET', params: {}, isArray: false},
             'query': {method: 'GET', params: {}, isArray: false},
             'count': {method: 'GET', params: {action: 'count'}, isArray: false},
-            'loan' : {method: 'POST', params: {action: 'loan'}}
+            'loan' : {method: 'POST', params: {action: 'loan'}},
+            'add' : {method : 'POST', params: {}}
         });
 
         return service;

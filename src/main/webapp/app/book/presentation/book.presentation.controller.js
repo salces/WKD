@@ -54,7 +54,7 @@
         var getPage = function (newPage, pageSize) {
             //TODO: handle count response
             Book.count().$promise.then(function (data) {
-                // $scope.bookPresentationGrid.totalItems = 271379;
+                 $scope.bookPresentationGrid.totalItems = 271400;
                 // console.log(data);
                 return data;
             });

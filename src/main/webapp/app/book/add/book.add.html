@@ -1,0 +1,16 @@
+<div ng-cloak>
+    <form name="addBookForm">
+        <label> ISBN: <input type="text" ng-model="vm.isbn" required></label><br>
+        <label> Author: <input type="text" ng-model="vm.author" required></label><br>
+        <label> Tittle: <input type="text" ng-model="vm.tittle" required></label><br>
+        <label> Publication year: <input type="number" step="1" ng-model="vm.publicationYear" required></label><br>
+        <label> Publisher: <input type="text" ng-model="vm.publisher" required></label><br>
+        <label> Small image URL: <input type="text" ng-model="vm.smallImageUrl" required></label><br>
+        <label> Medium image URL: <input type="text" ng-model="vm.mediumImageUrl" required></label><br>
+        <label> Large image URL: <input type="text" ng-model="vm.largeImageUrl" required></label><br>
+        <input type="button" class="btn btn-success.disabled"
+               value="Add book"
+               ng-class="{true:'btn btn-success', false:'btn btn-success.disabled'}[addBookForm.$valid==true]"
+               ng-click="vm.add()">
+    </form>
+</div>
