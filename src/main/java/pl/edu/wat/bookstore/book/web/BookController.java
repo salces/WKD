@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.bookstore.book.domain.Book;
+import pl.edu.wat.bookstore.book.repository.BookLoanRepository;
 import pl.edu.wat.bookstore.book.repository.BookRepository;
 import pl.edu.wat.bookstore.book.service.LoanBookService;
 import pl.edu.wat.bookstore.book.service.exceptions.NoSuchBookException;
@@ -21,6 +22,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 @RequestMapping("/api/book")
@@ -28,6 +30,7 @@ public class BookController {
 
     @Autowired
     BookRepository bookRepository;
+
 
     @Autowired
     LoanBookService loanBookService;
@@ -58,6 +61,12 @@ public class BookController {
     @RequestMapping(method = POST)
     @ResponseStatus(code = OK)
     public void add(@RequestBody Book book){
+        bookRepository.insert(book);
+    }
+
+    @RequestMapping(method = PUT)
+    @ResponseStatus(code = OK)
+    public void edit(@RequestBody Book book){
         bookRepository.save(book);
     }
 }

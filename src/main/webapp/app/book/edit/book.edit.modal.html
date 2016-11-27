@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <div class="modal-header">
+        Edit book
+    </div>
+    <div class="modal-body">
+        <table class="table-striped">
+            <tr>
+                <td>ISBN</td>
+                <td><input type="text" value="{{ vm.book.isbn }}" disabled></td>
+            </tr>
+            <tr>
+                <td>Author</td>
+                <td><input type="text" value="{{ vm.book.author }}" ng-model="vm.book.author"></td>
+            </tr>
+            <tr>
+                <td>Tittle</td>
+                <td><input type="text" value="{{ vm.book.tittle }}" ng-model="vm.book.tittle"></td>
+            </tr>
+            <tr>
+                <td>Publication year</td>
+                <td><input type="number" step="1" value="{{ vm.book.publicationYear }}" ng-model="vm.book.publicationYear"></td>
+            </tr>
+            <tr>
+                <td>Publisher</td>
+                <td><input type="text" value="{{ vm.book.publisher }}" ng-model="vm.book.publisher"></td>
+            </tr>
+            <tr>
+                <td>Small image URL</td>
+                <td><input type="text" value="{{ vm.book.smallImageUrl }}" ng-model="vm.book.smallImageUrl"></td>
+            </tr>
+            <tr>
+                <td>Medium image URL</td>
+                <td><input type="text" value="{{ vm.book.mediumImageUrl }}" ng-model="vm.book.mediumImageUrl"></td>
+            </tr>
+            <tr>
+                <td>Large image URL</td>
+                <td><input type="text" value="{{ vm.book.largeImageUrl }}" ng-model="vm.book.largeImageUrl"></td>
+            </tr>
+        </table>
+        <input type="button" value="Edit" class="btn btn-success" ng-click="vm.edit()">
+    </div>
+</div>

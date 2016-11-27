@@ -55,7 +55,6 @@
             //TODO: handle count response
             Book.count().$promise.then(function (data) {
                  $scope.bookPresentationGrid.totalItems = 271400;
-                // console.log(data);
                 return data;
             });
             Book.query({page: newPage, size: pageSize}).$promise.then(function (data) {

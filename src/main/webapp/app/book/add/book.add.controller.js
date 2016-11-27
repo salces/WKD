@@ -38,6 +38,10 @@
             vm.mediumImageUrl = '';
             vm.largeImageUrl = '';
         }
+        
+        vm.edit = function (book) {
+            
+        }
     }
 
 })();

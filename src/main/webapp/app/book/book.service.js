@@ -14,7 +14,8 @@
             'query': {method: 'GET', params: {}, isArray: false},
             'count': {method: 'GET', params: {action: 'count'}, isArray: false},
             'loan' : {method: 'POST', params: {action: 'loan'}},
-            'add' : {method : 'POST', params: {}}
+            'add' : {method : 'POST', params: {}},
+            'edit' : {method : 'PUT'}
         });
 
         return service;

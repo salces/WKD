@@ -24,6 +24,9 @@
                         <input type="number" min="1" max="30" step="1" ng-model="vm.daysForLoan"><br>
                         <span>Summary cost: <b>{{ vm.daysForLoan | currency : "€"}}</b></span><br>
                         <input type="button" class="btn btn-success" ng-click="vm.loan()" value="Buy">
+                        <input type="button" class="btn btn-info" ng-click="vm.openEditModal()" value="Edit">
+                        <!--do przeniesienia-->
+                        <input type="button" class="btn btn-danger" ng-click="vm.openReadModal()" value="Read">
                     </div>
                 </div>
             </div>

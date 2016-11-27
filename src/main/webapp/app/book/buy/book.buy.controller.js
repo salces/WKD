@@ -5,9 +5,9 @@
         .module('wkdProjectApp')
         .controller('BuyBookController', BuyBookController);
 
-    BuyBookController.$inject = ['Book', 'book', 'Notification', '$log'];
+    BuyBookController.$inject = ['Book', 'book', 'Notification', '$uibModal'];
 
-    function BuyBookController(Book, book, Notification, $log) {
+    function BuyBookController(Book, book, Notification, $uibModal) {
         var vm = this;
         vm.book = book;
         vm.daysForLoan = 1;
@@ -35,6 +35,32 @@
 
                 }
 
+            });
+        }
+
+        vm.openEditModal = function () {
+            $uibModal.open({
+                templateUrl: '/app/book/edit/book.edit.modal.html',
+                controller: 'EditBookController',
+                controllerAs: 'vm',
+                resolve: {
+                    book: function getBook() {
+                        return vm.book;
+                    }
+                }
+            });
+        }
+
+        vm.openReadModal = function () {
+            $uibModal.open({
+                templateUrl: '/app/book/read/book.read.modal.html',
+                controller: 'ReadBookController',
+                controllerAs: 'vm',
+                resolve: {
+                    book: function getBook() {
+                        return vm.book;
+                    }
+                }
             });
         }
     }
