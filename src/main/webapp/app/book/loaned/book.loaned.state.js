@@ -8,16 +8,16 @@
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig($stateProvider) {
-        $stateProvider.state('book_add', {
+        $stateProvider.state('book_loaned', {
             parent: 'app',
-            url: '/book/add',
+            url: '/book/loaned',
             data: {
-                authorities: ['ROLE_ADMIN']
+                authorities: []
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/book/add/book.add.html',
-                    controller: 'BookAddController',
+                    templateUrl: 'app/book/loaned/book.loaned.html',
+                    controller: 'LoanedBookController',
                     controllerAs: 'vm'
                 }
             }

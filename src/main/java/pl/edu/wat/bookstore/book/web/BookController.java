@@ -1,28 +1,22 @@
 package pl.edu.wat.bookstore.book.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.bookstore.book.domain.Book;
 import pl.edu.wat.bookstore.book.repository.BookLoanRepository;
 import pl.edu.wat.bookstore.book.repository.BookRepository;
 import pl.edu.wat.bookstore.book.service.LoanBookService;
-import pl.edu.wat.bookstore.book.service.exceptions.NoSuchBookException;
-import pl.edu.wat.bookstore.book.web.DTO.LoanBookDTO;
+import pl.edu.wat.bookstore.book.web.DTO.InactiveBookLoanDTO;
+import pl.edu.wat.bookstore.book.web.DTO.InputLoanBookDTO;
+import pl.edu.wat.bookstore.book.web.DTO.OutputLoanBookDTO;
 import pl.edu.wat.security.SecurityUtils;
 
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @RequestMapping("/api/book")
@@ -31,6 +25,8 @@ public class BookController {
     @Autowired
     BookRepository bookRepository;
 
+    @Autowired
+    BookLoanRepository bookLoanRepository;
 
     @Autowired
     LoanBookService loanBookService;
@@ -48,14 +44,8 @@ public class BookController {
 
     @RequestMapping(value = "/loan", method = POST,consumes = "application/json")
     @ResponseStatus(code = OK)
-    public void loanBook(@RequestBody LoanBookDTO loanBookDTO) {
-        loanBookService.loan(loanBookDTO);
-    }
-
-    @RequestMapping(value = "/loan/payment", method = POST, consumes = "application/json")
-    @ResponseStatus(code = OK)
-    public void makePayment(@RequestBody String loanBookID){
-        loanBookService.makePayment(loanBookID);
+    public void loanBook(@RequestBody InputLoanBookDTO inputLoanBookDTO) {
+        loanBookService.loan(inputLoanBookDTO);
     }
 
     @RequestMapping(method = POST)
@@ -68,5 +58,30 @@ public class BookController {
     @ResponseStatus(code = OK)
     public void edit(@RequestBody Book book){
         bookRepository.save(book);
+    }
+
+    @RequestMapping(value = "/loaned",method = GET)
+    @ResponseStatus(code = OK)
+    public List<OutputLoanBookDTO> getLoaned(){
+        String username = SecurityUtils.getCurrentUserLogin();
+        return loanBookService.getLoanedBooksDTOs(username);
+    }
+
+    @RequestMapping(value = "/inactive", method = GET)
+    @ResponseStatus(code = OK)
+    public List<InactiveBookLoanDTO> getInactiveBookLoans(){
+        return loanBookService.getInactiveBookLoans();
+    }
+
+    @RequestMapping(value = "/activate", method = POST)
+    @ResponseStatus(code = OK)
+    public void activate(@RequestBody String bookLoanID){
+        loanBookService.activate(bookLoanID);
+    }
+
+    @RequestMapping(value= "/{ISBN}", method = DELETE)
+    @ResponseStatus(code = OK)
+    public void deleteBook(@PathVariable String ISBN){
+        bookRepository.delete(ISBN);
     }
 }

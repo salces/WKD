@@ -97,7 +97,7 @@ public class UserService {
         newUser.setLangKey(langKey);
         // new user is active
         //TODO: configure mail
-        newUser.setActivated(true);
+        newUser.setActivated(false);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         authorities.add(authority);

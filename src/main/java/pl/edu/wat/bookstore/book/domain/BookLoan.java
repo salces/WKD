@@ -1,5 +1,6 @@
 package pl.edu.wat.bookstore.book.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -30,4 +31,27 @@ public class BookLoan implements Serializable{
 
     @DBRef
     private User owner;
+
+    public boolean isNearToEnd(){
+        if(startDate == null || endDate == null)
+            return false;
+
+        long diffMilliSeconds = new Date().getTime() - endDate.getTime();
+        if(diffMilliSeconds <= 24 * 60 * 100){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isOutOfDate(){
+        if(startDate == null || endDate == null)
+            return false;
+        long diffMilliSeconds = new Date().getTime() - endDate.getTime();
+        if(diffMilliSeconds <= 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

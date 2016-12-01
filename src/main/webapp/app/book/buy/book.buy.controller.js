@@ -5,9 +5,9 @@
         .module('wkdProjectApp')
         .controller('BuyBookController', BuyBookController);
 
-    BuyBookController.$inject = ['Book', 'book', 'Notification', '$uibModal'];
+    BuyBookController.$inject = ['Book', 'book', 'Notification', '$uibModal', '$scope'];
 
-    function BuyBookController(Book, book, Notification, $uibModal) {
+    function BuyBookController(Book, book, Notification, $uibModal, $scope) {
         var vm = this;
         vm.book = book;
         vm.daysForLoan = 1;
@@ -51,18 +51,15 @@
             });
         }
 
-        vm.openReadModal = function () {
-            $uibModal.open({
-                templateUrl: '/app/book/read/book.read.modal.html',
-                controller: 'ReadBookController',
-                controllerAs: 'vm',
-                resolve: {
-                    book: function getBook() {
-                        return vm.book;
-                    }
-                }
+        vm.remove = function(){
+            console.log(vm.book);
+            Book.remove({action: vm.book.isbn}).$promise.then(function (response) {
+                Notification.success('This book has been deleted');
             });
+            // var index = $scope.bookPresentationGrid.data.indexOf(vm.book);
+            // $scope.bookPresentationGrid.data.slice(index,1);
         }
+
     }
 
 

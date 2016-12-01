@@ -1,7 +1,6 @@
 package pl.edu.wat.bookstore.book.service.exceptions;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
-import pl.edu.wat.bookstore.book.web.DTO.LoanBookDTO;
 
 import static org.springframework.http.HttpStatus.CONFLICT;
 

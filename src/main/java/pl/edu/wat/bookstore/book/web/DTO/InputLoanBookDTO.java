@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LoanBookDTO {
+public class InputLoanBookDTO {
     String isbn;
     int days;
 }
